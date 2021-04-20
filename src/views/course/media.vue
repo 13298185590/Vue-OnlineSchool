@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" icon="el-icon-edit">新增图文</el-button>
+    <el-button type="primary" icon="el-icon-edit" @click="handleCreate">新增图文</el-button>
 
     <el-select
       v-model="listQuery.status"
@@ -75,7 +75,7 @@
         class-name="small-padding fixed-width"
       >
         <template slot-scope="{ row, $index }">
-          <el-button type="primary" size="mini"> 编辑 </el-button>
+          <el-button type="primary" size="mini" @click="handleUpdate(row)"> 编辑 </el-button>
           <el-button
             v-if="row.status != '0'"
             size="mini"
@@ -109,16 +109,56 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" fullscreen="true">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="temp.title" />
+        </el-form-item>
+        <el-form-item label="封面" prop="cover">
+          <dropzone id="myVueDropzone" url="https://httpbin.org/post" @dropzone-removedFile="dropzoneR" @dropzone-success="dropzoneS" />
+        </el-form-item>
+        <el-form-item label="试看内容" prop="try">
+          <tinymce v-model="temp.try" :height="300" :width="600" />
+        </el-form-item>
+        <el-form-item label="课程内容" prop="content">
+          <tinymce v-model="temp.content" :height="300" :width="600" />
+        </el-form-item>
+        <el-form-item label="课程价格" prop="price">
+          <el-input-number v-model="temp.price"></el-input-number>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio-group v-model="temp.status">
+        <el-radio :label="0">
+          下架
+        </el-radio>
+        <el-radio :label="1">
+          上架
+        </el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          提交
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from "@/components/Pagination";
-import { fetchList, updateMedia, deleteMedia } from "@/api/media";
+import { fetchList, updateMedia, deleteMedia,createMedia } from "@/api/media";
+import Tinymce from '@/components/Tinymce'
+import Dropzone from '@/components/Dropzone'
 export default {
   mounted() {
     this.getList();
   },
-  components: { Pagination },
+  components: { Pagination,Tinymce,Dropzone },
   data() {
     return {
       listLoading: false,
@@ -134,6 +174,24 @@ export default {
         { key: "US", display_name: "已上架" },
       ],
       tableData: [],
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '添加'
+      },
+      temp: {
+        id: undefined,
+        title: '',
+        status: 1,
+        cover:"",
+        try:"",
+        content:"",
+        price:0
+      },
+      rules: {
+        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+      },
     };
   },
   filters: {
@@ -215,6 +273,72 @@ export default {
           }
         });
       });
+    },
+    resetTemp() {
+      this.temp = {
+        id: undefined,
+        title: '',
+        status: 1,
+        cover:'',
+        try:"",
+        content:"",
+        price:0
+      }
+    },
+    //显示添加商品页面
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    //提交添加商品
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+          createMedia(this.temp).then(() => {
+            this.tableData.unshift(this.temp)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '添加成功',
+              message: '添加课程成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    //点击编辑按钮
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    //提交修改
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          updateMedia(tempData).then(() => {
+            const index = this.tableData.findIndex(v => v.id === this.temp.id)
+            this.tableData.splice(index, 1, this.temp)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '修改成功',
+              message: '修改课程信息成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
     },
   },
 };
