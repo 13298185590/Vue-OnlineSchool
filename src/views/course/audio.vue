@@ -124,6 +124,15 @@
         <el-form-item label="课程内容" prop="content">
           <tinymce v-model="temp.content" :height="300" :width="600" />
         </el-form-item>
+        <el-form-item label="音频内容" >
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+          >
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传MP3/MP4文件，且不超过500Mb</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="课程价格" prop="price">
           <el-input-number v-model="temp.price"></el-input-number>
         </el-form-item>
