@@ -56,7 +56,7 @@
       <el-table-column label="状态" class-name="status-col" width="100">
         <template slot-scope="{ row }">
           <el-tag :type="row.status | statusFilter">
-            {{ row.status ? "已下架" : "已上架" }}
+            {{ row.status ? "已上架" : "已下架" }}
           </el-tag>
         </template>
       </el-table-column>
@@ -79,7 +79,7 @@
           <el-button
             v-if="row.status != '0'"
             size="mini"
-            @click="handleModifyStatus(row, '0')"
+            @click="handleModifyStatus(row, 0)"
           >
             下架
           </el-button>
@@ -87,7 +87,7 @@
             v-if="row.status != '1'"
             size="mini"
             type="success"
-            @click="handleModifyStatus(row, '1')"
+            @click="handleModifyStatus(row, 1)"
           >
             上架
           </el-button>
