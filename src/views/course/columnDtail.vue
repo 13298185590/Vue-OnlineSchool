@@ -66,7 +66,6 @@
       class="filter-item"
     />
     <el-button
-      v-waves
       class="filter-item"
       type="primary"
       icon="el-icon-search"
@@ -147,7 +146,6 @@
       class="filter-item"
       />
       <el-button
-        v-waves
         class="filter-item"
         type="primary"
         icon="el-icon-search"
@@ -158,7 +156,7 @@
     <el-tabs tab-position="left" style="height: 200px;">
     <el-tab-pane label="图文">
       <el-table
-      ref="dragTable"
+      ref="dataForm"
       :data="tableData"
       style="width: 100%;"
       :default-sort="{ prop: 'date', order: 'descending' }"
@@ -180,7 +178,7 @@
     </el-tab-pane>
     <el-tab-pane label="音频">
       <el-table
-      ref="dragTable"
+      ref="dataForm"
       :data="tableData"
       style="width: 100%;"
       :default-sort="{ prop: 'date', order: 'descending' }"
@@ -202,7 +200,7 @@
     </el-tab-pane>
     <el-tab-pane label="视频">
       <el-table
-      ref="dragTable"
+      ref="dataForm"
       :data="tableData"
       style="width: 100%;"
       :default-sort="{ prop: 'date', order: 'descending' }"

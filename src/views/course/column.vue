@@ -23,7 +23,6 @@
       class="filter-item"
     />
     <el-button
-      v-waves
       class="filter-item"
       type="primary"
       icon="el-icon-search"
@@ -35,7 +34,7 @@
       :data="tableData"
       style="width: 100%; margin-top: 30px"
       :default-sort="{ prop: 'date', order: 'descending' }"
-      border="true"
+      border
     >
       <el-table-column prop="id" label="ID" align="center" sortable width="90">
       </el-table-column>
@@ -117,13 +116,13 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" fullscreen="true">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" fullscreen>
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="标题" prop="title">
           <el-input v-model="temp.title" />
         </el-form-item>
         <el-form-item label="封面" prop="cover">
-          <dropzone id="myVueDropzone" url="https://httpbin.org/post" @dropzone-removedFile="dropzoneR" @dropzone-success="dropzoneS" />
+          <dropzone id="myVueDropzone" url="https://httpbin.org/post"  />
         </el-form-item>
         <el-form-item label="试看内容" prop="try">
           <tinymce v-model="temp.try" :height="300" :width="600" />
