@@ -184,7 +184,6 @@ export const asyncRoutes = [
         name: 'Column_detail',
         meta: {
           title: '目录',
-          // roles: ['admin']
         }
       }
     ]
@@ -199,6 +198,47 @@ export const asyncRoutes = [
         name: 'User',
         meta: { title: '用户', icon: 'user', noCache: true }
       }
+    ]
+  },
+  {
+    path: '/pay',
+    component: Layout,
+    redirect: '/pay/order',
+    alwaysShow: true, // will always show the root menu
+    name: 'Pay',
+    meta: {
+      title: '交易',
+      icon: 'education',
+      // roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'order',
+        component: () => import('@/views/pay/order'),
+        name: 'Order',
+        meta: {
+          title: '订单管理',
+          // roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'assets',
+        component: () => import('@/views/pay/assets'),
+        name: 'Assets',
+        meta: {
+          title: '资产管理'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'payment',
+        component: () => import('@/views/pay/payment'),
+        name: 'Payment',
+        meta: {
+          title: '支付设置',
+          // roles: ['admin']
+        }
+      },
     ]
   },
   {
