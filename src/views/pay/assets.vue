@@ -65,7 +65,7 @@
       <el-table-column align="center" label="状态">
         <template slot-scope="{ row }">
           <el-tag :type="row.status ? 'success' : 'danger'">
-            {{ row.status ? "体现完成" : "审核中" }}
+            {{ row.status ? "提现完成" : "审核中" }}
           </el-tag>
         </template>
       </el-table-column>
@@ -158,14 +158,6 @@ export default {
         success: "success",
         fail: "danger",
         pendding: "danger",
-      };
-      return statusMap[status];
-    },
-    statustext(status) {
-      const statusMap = {
-        success: "成功",
-        fail: "失败",
-        pendding: "待支付",
       };
       return statusMap[status];
     },

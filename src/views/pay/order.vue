@@ -80,8 +80,8 @@
              title="确定要删除该订单吗？"
              @onConfirm="handleDelete(row, $index)"
           >
-          <el-button size="mini" type="danger" slot="reference">删除</el-button>
-        </el-popconfirm>
+            <el-button size="mini" type="danger" slot="reference">删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -208,9 +208,8 @@ export default {
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]))
     },
-    //删除商品
+    //删除订单
     handleDelete(row, index) {
-        console.log(1111);
         deleteOrder(row.id).then((response) => {
           // console.log(response)
           if ((response.code = 20000)) {
