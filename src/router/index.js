@@ -242,6 +242,79 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/renovation',
+    component: Layout,
+    redirect: '/renovation/mobile_index',
+    alwaysShow: true, // will always show the root menu
+    name: 'Renovation',
+    meta: {
+      title: '可视化',
+      icon: 'eye-open',
+      // roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'mobile_index',
+        component: () => import('@/views/renovation/mobile_index'),
+        name: 'Mobile_index',
+        meta: {
+          title: '移动端',
+          // roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'pc_index',
+        component: () => import('@/views/renovation/pc_index'),
+        name: 'Pc_index',
+        meta: {
+          title: 'PC端'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+    ]
+  },
+  {
+    path: '/marketing',
+    component: Layout,
+    redirect: '/marketing/group',
+    alwaysShow: true, // will always show the root menu
+    name: 'Marketing',
+    meta: {
+      title: '营销',
+      icon: 'shopping',
+      // roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'group',
+        component: () => import('@/views/marketing/group'),
+        name: 'Group',
+        meta: {
+          title: '拼团',
+          // roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'flashsale',
+        component: () => import('@/views/marketing/flashsale'),
+        name: 'Flashsale',
+        meta: {
+          title: '秒杀'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'coupon',
+        component: () => import('@/views/marketing/coupon'),
+        name: 'Coupon',
+        meta: {
+          title: '优惠卷',
+          // roles: ['admin']
+        }
+      },
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',

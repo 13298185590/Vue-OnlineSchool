@@ -67,7 +67,7 @@
         width="350"
         class-name="small-padding fixed-width"
       >
-        <template slot-scope="{ row, $index }">
+        <template slot-scope="{ row }">
           <el-button type="primary" size="mini" @click="handleUserDetail(row)">
             详情
           </el-button>
